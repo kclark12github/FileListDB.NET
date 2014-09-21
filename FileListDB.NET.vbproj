@@ -104,6 +104,16 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <File
+                    RelPath = "frmProgress.vb"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "frmProgress.resx"
+                    DependentUpon = "frmProgress.vb"
+                    BuildAction = "EmbeddedResource"
+                />
             </Include>
         </Files>
     </VisualBasic>
