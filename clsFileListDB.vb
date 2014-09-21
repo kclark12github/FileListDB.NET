@@ -64,7 +64,6 @@ Public Class clsFileListDB
     Public Function DoFileListDB(ByVal RootDir As String, ByVal DatabaseName As String) As Integer
         Dim ConnectionString As String
         Dim frm As frmProgress
-        Dim iCount As Long
         Dim Message As String
         Dim SQLSource As String
         Dim StartTime As Date
@@ -134,6 +133,7 @@ Public Class clsFileListDB
                 DoCommand(SQLSource)
 
                 .prgProgress.Visible = True
+                mCount = 0
                 ListFiles(Root)
                 .OKtoClose = True
                 .Close()
@@ -195,6 +195,7 @@ Public Class clsFileListDB
                     Case "Temporary Internet Files"
                     Case Else
                         Try
+                            mCount += 1
                             RaiseEvent List(di.FullName)
                             Application.DoEvents() : If mCancel Then Exit Try
 
@@ -225,6 +226,7 @@ Public Class clsFileListDB
             Dim fiList As FileInfo() = BaseDir.GetFiles()
             For Each fi As FileInfo In fiList
                 Try
+                    mCount += 1
                     RaiseEvent List(fi.FullName)
                     Application.DoEvents() : If mCancel Then Exit Try
 
