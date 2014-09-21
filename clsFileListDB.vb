@@ -101,7 +101,7 @@ Public Class clsFileListDB
                 Application.DoEvents() : If mCancel Then Exit Try
                 Try
                     Dim SQLCommand As New SqlClient.SqlCommand
-                    SQLSource = "Select Count(*) From FileList"
+                    SQLSource = String.Format("Select Count(*) From FileList Where Path Like '{0}%'", RootDir)
                     With SQLCommand
                         .CommandText = SQLSource
                         .CommandType = CommandType.Text
@@ -111,26 +111,34 @@ Public Class clsFileListDB
                 Catch ex As Exception
                 End Try
 
-                RaiseEvent List(String.Format("Dropping {0} table...", "FileList"))
+                'RaiseEvent List(String.Format("Dropping {0} table...", "FileList"))
+                'Application.DoEvents() : If mCancel Then Exit Try
+                'Try
+                '    SQLSource = "DROP TABLE FileList"
+                '    DoCommand(SQLSource)
+                'Catch ex As Exception
+                'End Try
+
+                'RaiseEvent List(String.Format("Recreating {0} table...", "FileList"))
+                'Application.DoEvents() : If mCancel Then Exit Try
+                'SQLSource = "CREATE TABLE FileList ("
+                'SQLSource &= "[ID] int NOT NULL IDENTITY (1, 1),"
+                'SQLSource &= "[Path] [nvarchar] (1024) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,"
+                'SQLSource &= "[Size] [bigint] NULL,"
+                'SQLSource &= "[Attributes] [nvarchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,"
+                'SQLSource &= "[CreationTime] [datetime] NULL,"
+                'SQLSource &= "[LastAccessTime] [datetime] NULL,"
+                'SQLSource &= "[LastWriteTime] [datetime] NULL"
+                'SQLSource &= ") ON [PRIMARY]"
+                'DoCommand(SQLSource)
+
+                RaiseEvent List(String.Format("Deleting {0}% records...", RootDir))
                 Application.DoEvents() : If mCancel Then Exit Try
                 Try
-                    SQLSource = "DROP TABLE FileList"
+                    SQLSource = String.Format("Delete From FileList Where Path Like '{0}%'", RootDir)
                     DoCommand(SQLSource)
                 Catch ex As Exception
                 End Try
-
-                RaiseEvent List(String.Format("Recreating {0} table...", "FileList"))
-                Application.DoEvents() : If mCancel Then Exit Try
-                SQLSource = "CREATE TABLE FileList ("
-                SQLSource &= "[ID] int NOT NULL IDENTITY (1, 1),"
-                SQLSource &= "[Path] [nvarchar] (1024) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,"
-                SQLSource &= "[Size] [bigint] NULL,"
-                SQLSource &= "[Attributes] [nvarchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,"
-                SQLSource &= "[CreationTime] [datetime] NULL,"
-                SQLSource &= "[LastAccessTime] [datetime] NULL,"
-                SQLSource &= "[LastWriteTime] [datetime] NULL"
-                SQLSource &= ") ON [PRIMARY]"
-                DoCommand(SQLSource)
 
                 .prgProgress.Visible = True
                 mCount = 0
