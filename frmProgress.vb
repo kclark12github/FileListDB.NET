@@ -57,7 +57,7 @@ Public Class frmProgress
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.prgProgress.Location = New System.Drawing.Point(24, 20)
         Me.prgProgress.Name = "prgProgress"
-        Me.prgProgress.Size = New System.Drawing.Size(644, 24)
+        Me.prgProgress.Size = New System.Drawing.Size(624, 24)
         Me.prgProgress.Step = 1
         Me.prgProgress.TabIndex = 0
         '
@@ -69,17 +69,18 @@ Public Class frmProgress
         Me.lblProgress.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.lblProgress.Location = New System.Drawing.Point(28, 64)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(640, 64)
+        Me.lblProgress.Size = New System.Drawing.Size(620, 64)
         Me.lblProgress.TabIndex = 1
         '
         'frmProgress
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(6, 15)
-        Me.ClientSize = New System.Drawing.Size(684, 136)
+        Me.ClientSize = New System.Drawing.Size(664, 136)
         Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.prgProgress)
         Me.MaximizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(692, 176)
+        Me.MaximumSize = New System.Drawing.Size(1024, 176)
+        Me.MinimumSize = New System.Drawing.Size(672, 176)
         Me.Name = "frmProgress"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "frmProgress"

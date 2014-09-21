@@ -167,18 +167,14 @@ Public Class clsFileListDB
             SQLSource &= ") ON [PRIMARY]"
             fl.DoCommand(SQLSource)
 
-            If fl.Count > 0 Then
-                'Use these stats to display a window with a progress bar...
-                Dim frm As New frmProgress(fl)
-                With frm
-                    .Text = String.Format("FileListDB - Listing Files From {0} into {1}", args(1), args(2))
-                    .Show()
-                    fl.ListFiles(Root)
-                    .Close()
-                End With
-            Else
+            'Use these stats to display a window with a progress bar...
+            Dim frm As New frmProgress(fl)
+            With frm
+                .Text = String.Format("FileListDB - Listing Files From {0} into {1}", args(1), args(2))
+                .Show()
                 fl.ListFiles(Root)
-            End If
+                .Close()
+            End With
             Return 0
         Catch ex As Exception
             MessageBox.Show(ex.ToString, "FileListDB", MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1, MessageBoxOptions.ServiceNotification)
