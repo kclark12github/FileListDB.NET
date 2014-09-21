@@ -8,21 +8,8 @@ Public Class frmProgress
 
         'Add any initialization after the InitializeComponent() call
         mBaseClass = objBase
-        With Me
-            .prgProgress.Minimum = 0
-            .prgProgress.Value = 0
-            .prgProgress.Maximum = objBase.Count
-            If objBase.Count = 0 Then
-                .prgProgress.Visible = False
-                Dim Offset As Single = .lblProgress.Top - .prgProgress.Top
-                .lblProgress.Top = .prgProgress.Top
-                .MinimumSize = New System.Drawing.Size(.Width, .Height - Offset)
-                .Size = .MinimumSize
-            Else
-                .prgProgress.Visible = True
-            End If
-            .Size = .MinimumSize
-        End With
+        mOffset = Me.lblProgress.Top - Me.prgProgress.Top
+        prgProgress.Visible = CBool(mBaseClass.Count = 0)
     End Sub
 
 #Region " Windows Form Designer generated code "
@@ -91,12 +78,22 @@ Public Class frmProgress
 
 #End Region
     Private WithEvents mBaseClass As clsFileListDB
+    Private mOffset As Single
+    Private mOKtoClose As Boolean
     Public Property BaseClass() As clsFileListDB
         Get
             Return mBaseClass
         End Get
         Set(ByVal Value As clsFileListDB)
             mBaseClass = Value
+        End Set
+    End Property
+    Public Property OKtoClose() As Boolean
+        Get
+            Return mOKtoClose
+        End Get
+        Set(ByVal Value As Boolean)
+            mOKtoClose = Value
         End Set
     End Property
     Private Sub mBaseClass_List(ByVal Message As String) Handles mBaseClass.List
@@ -106,11 +103,28 @@ Public Class frmProgress
         End With
         Application.DoEvents()
     End Sub
-    Private Sub frmProgress_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-        If MessageBox.Show("OK to Stop FileListDB?", "Stop FileListDB", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
-            e.Cancel = True
-        Else
-            mBaseClass.Cancel = True
+    Private Sub frmProgress_Closing(ByVal EventSender As Object, ByVal EventArgs As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        If Not mOKtoClose Then
+            If MessageBox.Show("OK to Stop FileListDB?", "Stop FileListDB", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.No Then
+                EventArgs.Cancel = True
+            Else
+                mBaseClass.Cancel = True
+            End If
         End If
+    End Sub
+    Private Sub prgProgress_VisibleChanged(ByVal EventSender As Object, ByVal EventArgs As System.EventArgs) Handles prgProgress.VisibleChanged
+        If IsNothing(mBaseClass) Then Exit Sub
+        With Me
+            .prgProgress.Minimum = 0
+            .prgProgress.Value = 0
+            .prgProgress.Maximum = mBaseClass.Count
+            If Not .prgProgress.Visible Then
+                .lblProgress.Top = .prgProgress.Top
+                .Size = New System.Drawing.Size(.Width, .Height - mOffset)
+            Else
+                .lblProgress.Top = .prgProgress.Top + mOffset
+                .Size = New System.Drawing.Size(.Width, .Height + mOffset)
+            End If
+        End With
     End Sub
 End Class

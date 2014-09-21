@@ -81,6 +81,16 @@
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
                 />
+                <Reference
+                    Name = "System.ServiceProcess"
+                    AssemblyName = "System.ServiceProcess"
+                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.ServiceProcess.dll"
+                />
+                <Reference
+                    Name = "Microsoft.VisualBasic.Compatibility"
+                    AssemblyName = "Microsoft.VisualBasic.Compatibility"
+                    HintPath = "..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\Microsoft.VisualBasic.Compatibility.dll"
+                />
             </References>
             <Imports>
                 <Import Namespace = "Microsoft.VisualBasic" />
@@ -90,6 +100,11 @@
                 <Import Namespace = "System.Drawing" />
                 <Import Namespace = "System.Diagnostics" />
                 <Import Namespace = "System.Windows.Forms" />
+                <Import Namespace = "Microsoft.VisualBasic.Compatibility" />
+                <Import Namespace = "System.IO" />
+                <Import Namespace = "System.IO.Directory" />
+                <Import Namespace = "System.IO.File" />
+                <Import Namespace = "System.Reflection" />
             </Imports>
         </Build>
         <Files>
