@@ -1,11 +1,10 @@
 Public Class clsFileListDB
     Public Sub New()
         MyBase.New()
-        Dim CurrentAssembly As [Assembly] = System.Reflection.Assembly.GetCallingAssembly.GetEntryAssembly
+        Dim CurrentAssembly As [Assembly] = Assembly.GetEntryAssembly
         mAppName = CurrentAssembly.GetName.Name.ToString()
-        mEventLog = New EventLog("Application")
-        mEventLog.EnableRaisingEvents = True
-        If Not mEventLog.SourceExists(mAppName) Then mEventLog.CreateEventSource(mAppName, "Application")
+        mEventLog = New EventLog("Application") : mEventLog.EnableRaisingEvents = True
+        If Not EventLog.SourceExists(mAppName) Then EventLog.CreateEventSource(mAppName, "Application")
         mEventLog.Source = mAppName
     End Sub
     Public Event List(ByVal Message As String)
@@ -193,7 +192,7 @@ Public Class clsFileListDB
         End Select
     End Function
     Public Sub ListFiles(ByVal BaseDir As DirectoryInfo)
-        Dim SQLSource As String
+        Dim SQLSource As String = vbNullString
         Dim ColumnList As String = "[Path],[Size],[Attributes],[CreationTime],[LastAccessTime],[LastWriteTime]"
         Try
             Dim diList As DirectoryInfo() = BaseDir.GetDirectories()
@@ -209,7 +208,7 @@ Public Class clsFileListDB
 
                             SQLSource = vbNullString
                             Dim ValueList() As String = { _
-                                Replace(di.FullName, "'", "''"), _
+                                di.FullName.Replace("'", "''"), _
                                 di.Attributes.ToString, _
                                 IIf(di.CreationTime >= CDate("01/01/1753"), String.Format("'{0}'", di.CreationTime.ToString), "NULL"), _
                                 IIf(di.LastAccessTime >= CDate("01/01/1753"), String.Format("'{0}'", di.LastAccessTime.ToString), "NULL"), _
@@ -240,7 +239,7 @@ Public Class clsFileListDB
 
                     SQLSource = vbNullString
                     Dim ValueList() As String = { _
-                        Replace(fi.FullName, "'", "''"), _
+                        fi.FullName.Replace("'", "''"), _
                         fi.Length.ToString, _
                         fi.Attributes.ToString, _
                         IIf(fi.CreationTime >= CDate("01/01/1753"), String.Format("'{0}'", fi.CreationTime.ToString), "NULL"), _
