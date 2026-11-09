@@ -3,9 +3,9 @@ Public Class clsFileListDB
         MyBase.New()
         Dim CurrentAssembly As [Assembly] = Assembly.GetEntryAssembly
         mAppName = CurrentAssembly.GetName.Name.ToString()
-        mEventLog = New EventLog("Application") : mEventLog.EnableRaisingEvents = True
-        If Not EventLog.SourceExists(mAppName) Then EventLog.CreateEventSource(mAppName, "Application")
-        mEventLog.Source = mAppName
+        ' mEventLog = New EventLog("Application") : mEventLog.EnableRaisingEvents = True
+        ' If Not EventLog.SourceExists(mAppName) Then EventLog.CreateEventSource(mAppName, "Application")
+        ' mEventLog.Source = mAppName
     End Sub
     Public Event List(ByVal Message As String)
     Private mEventLog As EventLog
@@ -186,7 +186,7 @@ Public Class clsFileListDB
 
         Select Case tFormat
             Case 0
-                ElapsedTime = VB6.Format(HH, "00") & ":" & VB6.Format(MM, "00") & ":" & VB6.Format(SS, "00")
+                ElapsedTime = String.Format("{0:00}:{1:00}:{2:00}", HH, MM, SS)
             Case Else
                 ElapsedTime = strTime
         End Select
